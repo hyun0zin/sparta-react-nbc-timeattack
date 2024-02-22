@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useContext, useState } from "react";
-import { TodoContext } from "../context/TodoContext";
 
 const baseURL = "http://localhost:4000/todos";
 
@@ -56,13 +54,6 @@ export const createTodo = async (todo) => {
   // - response 객체의 data 속성을 사용하여 결과 데이터를 추출하세요.
   // - 결과 데이터를 반환하세요.
   try {
-    const todo = {
-      id: "2",
-      title: "12345",
-      content: "54321",
-      deadline: "2024-02-20",
-      isDone: false,
-    };
     const { data } = await instance.post("/todos");
     console.log(data);
     data.push(todo);
@@ -70,7 +61,13 @@ export const createTodo = async (todo) => {
     console.error("Error", error);
   }
 };
-
+const todo = {
+  id: "1",
+  title: "12345",
+  content: "54321",
+  deadline: "2024-02-20",
+  isDone: false,
+};
 createTodo(todo);
 
 // 특정 ID의 TODO 삭제하기 (DELETE /todos/:id)
@@ -85,11 +82,10 @@ export const deleteTodo = async (id) => {
     console.error("Error", error);
   }
 };
-deleteTodo(
-  todos.filter((todo) => {
-    todo.id !== id;
-  })
-);
+const deleteClickTodo = data.filter((todo) => {
+  todo.id !== id;
+});
+deleteTodo(deleteClickTodo());
 
 // 특정 ID의 TODO 수정하기 (PATCH /todos/:id)
 export const updateTodo = async (id, todo) => {
@@ -98,4 +94,5 @@ export const updateTodo = async (id, todo) => {
   // - URL 파라미터에 id 값을 전달하세요.
   // - todo 객체를 요청 body에 포함시키세요.
   // - 수정된 ID를 반환하세요.
+  await instance.patch(`/todos/${id}`, todo);
 };
